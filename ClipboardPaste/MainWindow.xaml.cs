@@ -30,26 +30,37 @@ namespace ClipboardPaste
         {
             IDataObject data = Clipboard.GetDataObject(); //Gets all clipboard data
             string[] formats = data.GetFormats(); //Gets all available clipboard formats
-            
-            lstContentType.Items.Clear(); //Clears the content type list before populating it 
+
+            //lstContentType.Items.Clear(); //Clears the content type list before populating it 
+
             List<object> clipboardContents = new List<object>();
             for (int i = 0; i < formats.Length; i++) 
             {
                 var content = data.GetData(formats[i]);
                 clipboardContents.Add(content);
-                lstContentType.Items.Add(formats[i]);
+                //lstContentType.Items.Add(formats[i]);
                 
             }
 
             
-
-            lstContent.Items.Clear(); //Clears the content list before populating it 
-            foreach (var content in clipboardContents) //Adds clipboard content to the list
+            lstClipboard.Items.Clear();
+            //lstContent.Items.Clear(); //Clears the content list before populating it 
+            //foreach (var content in clipboardContents) //Adds clipboard content to the list
+            for (int i = 0; i < formats.Length; i++)
             {
-                lstContent.Items.Add(content);
+                lstClipboard.Items.Add(new Item { content = clipboardContents[i], type = formats[i]});
             }
             
             printList(clipboardContents); // Also prints the clipboard's contents for debugging purposes
+
+            
+        }
+
+        public class Item
+        {
+            public object content { get; set; }
+
+            public String type { get; set; }
         }
 
         private void printList(List<object> list)
